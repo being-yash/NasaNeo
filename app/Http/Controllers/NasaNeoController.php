@@ -36,6 +36,8 @@ class NasaNeoController extends Controller
         $neo_distance_km = [];
         $neo_diameter_km = [];
         $neo_count_by_date = [];
+        $neo_average_size = [];
+        $neo_average_sizeIDs = [];
 
         //Collected all NEOS on a single array from different date arrays
         foreach ($neo_api_data['near_earth_objects'] as $key => $value) {
@@ -75,7 +77,17 @@ class NasaNeoController extends Controller
         foreach ($neo_data_by_date_arrkeys as $key => $value) {
             $neo_count_by_date[$value] = count($neo_data_by_date[$value]);
         }
-        dd($neo_diameter_km); 
+        //to get average size
+        foreach ($neo_diameter_km as $key => $value) {
+            $a = array_filter($value);
+            $average = array_sum($a)/count($a);
+            $neo_average_size[$key] = $average;
+        }
+        foreach($neo_by_array as $key => $value){
+            $neo_average_sizeIDs[] = $value['id'];
+        }
+        //dd($neo_average_sizeIDs,$neo_average_size); 
+
         //to get fastest NEO
         arsort($neo_velocity_kmph);
         $fastestAseroid = Arr::first($neo_velocity_kmph);
@@ -92,7 +104,7 @@ class NasaNeoController extends Controller
         $neo_count_by_date_arry_values = array_values($neo_count_by_date);
 
         //dd($neo_data_by_date,$neo_by_array);
-        return view('welcome', compact('fastestAseroidId', 'fastestAseroid', 'closestAseroidId', 'closestAseroid', 'neo_count_by_date_arry_keys', 'neo_count_by_date_arry_values','today','startDate','endDate'));
+        return view('welcome', compact('fastestAseroidId', 'fastestAseroid', 'closestAseroidId', 'closestAseroid', 'neo_count_by_date_arry_keys', 'neo_count_by_date_arry_values','today','startDate','endDate','neo_average_sizeIDs','neo_average_size'));
     }
 
     /**

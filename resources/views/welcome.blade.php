@@ -40,16 +40,40 @@
                   <tbody>
                     <tr>
                       <th scope="row">1</th>
-                      <td>Fastest Asteroid Id & Speed(in KM/Hour)</td>
+                      <td><strong>Fastest Asteroid Id & Speed(in KM/Hour)</strong></td>
                       <td>{{ $fastestAseroidId }}</td>
                       <td>{{ $fastestAseroid }}</td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
-                        <td>Closest Asteroid Id & Distance(in KM)</td>
+                        <td><strong>Closest Asteroid Id & Distance(in KM)</strong></td>
                         <td>{{ $closestAseroidId }}</td>
                         <td>{{ $closestAseroid }}</td>
                     </tr>
+                  </tbody>
+                </table>
+                @else
+                <h3 class="text-danger">Please Select Date to get data</h3>
+                @endif
+                <br>
+                @if(isset($neo_average_size))
+                <h3>Average Asteroid Size received from NEO Feed</h3>
+                <table class="table table-striped">
+                  <tbody>
+                    <thead>
+                        <th scope="col">#</th>
+                        <th scope="col">Asteroid ID</th>
+                        <th scope="col">Average Size</th>
+                    </thead>
+                    @php($i = 1)
+                    @foreach(array_combine($neo_average_size, $neo_average_sizeIDs) as $d1 => $d2)
+                    <tr>
+                      <th scope="row">{{ $i }}</th>
+                      <td>{{ $d2 }}</td>
+                      <td>{{ $d1 }}</td>
+                    </tr>
+                    @php($i++)
+                    @endforeach
                   </tbody>
                 </table>
                 @else
